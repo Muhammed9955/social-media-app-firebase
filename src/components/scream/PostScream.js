@@ -32,7 +32,7 @@ const styles = (theme) => ({
   },
   closeButtonSM: {
     position: "absolute",
-    left: "80%",
+    left: "85%",
     top: "6%",
   },
 });
@@ -89,7 +89,7 @@ class PostScream extends Component {
           <MyButton
             tip="Close"
             onClick={this.handleClose}
-            tipClassName={w > 400 ? classes.closeButton : classes.closeButtonSM}
+            tipClassName={w > 600 ? classes.closeButton : classes.closeButtonSM}
           >
             <CloseIcon />
           </MyButton>

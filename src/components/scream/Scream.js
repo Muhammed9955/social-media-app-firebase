@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
@@ -39,7 +39,7 @@ const styles = {
     // objectFit: "cover",
     // display: "flex",
     // flexDirection: "column",
-    position: "relative",
+    // position: "relative",
   },
   ScreamDialog: {
     left: "50%",
@@ -48,9 +48,6 @@ const styles = {
   },
 };
 
-const likeBtnStyle = {
-  padding: "0",
-};
 class Scream extends Component {
   render() {
     dayjs.extend(relativeTime);

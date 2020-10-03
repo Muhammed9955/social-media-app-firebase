@@ -94,9 +94,7 @@ class ScreamDialog extends Component {
 
   render() {
     let w = window.innerWidth;
-    let h = window.innerHeight;
-    console.log({ h });
-    console.log({ w });
+    // console.log({ w });
 
     const {
       classes,
