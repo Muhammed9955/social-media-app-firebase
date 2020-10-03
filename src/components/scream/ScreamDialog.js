@@ -29,12 +29,23 @@ const styles = (theme) => ({
     borderRadius: "50%",
     objectFit: "cover",
   },
+  profileImageSM: {
+    maxWidth: 200,
+    height: 200,
+    borderRadius: "50%",
+    objectFit: "cover",
+    padding: "0 40% 0 40%",
+  },
   dialogContent: {
     padding: 20,
   },
   closeButton: {
     position: "absolute",
     left: "90%",
+  },
+  closeButtonSM: {
+    position: "absolute",
+    left: "85%",
   },
   expandButton: {
     position: "absolute",
@@ -44,6 +55,10 @@ const styles = (theme) => ({
     textAlign: "center",
     marginTop: 50,
     marginBottom: 50,
+  },
+  contianer: {
+    display: "flex",
+    displayDirection: "column",
   },
 });
 
@@ -78,6 +93,11 @@ class ScreamDialog extends Component {
   };
 
   render() {
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    console.log({ h });
+    console.log({ w });
+
     const {
       classes,
       scream: {
@@ -100,7 +120,11 @@ class ScreamDialog extends Component {
     ) : (
       <Grid container spacing={16}>
         <Grid item sm={5}>
-          <img src={userImage} alt="Profile" className={classes.profileImage} />
+          <img
+            src={userImage}
+            alt="Profile"
+            className={w > 400 ? classes.profileImage : classes.profileImageSM}
+          />
         </Grid>
         <Grid item sm={7}>
           <Typography
@@ -111,12 +135,14 @@ class ScreamDialog extends Component {
           >
             @{userHandle}
           </Typography>
+
+          <hr className={classes.invisibleSeparator} />
+          <Typography variant="body1">{body}</Typography>
           <hr className={classes.invisibleSeparator} />
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
           </Typography>
-          <hr className={classes.invisibleSeparator} />
-          <Typography variant="body1">{body}</Typography>
+
           <LikeButton screamId={screamId} />
           <span>{likeCount} likes</span>
           <MyButton tip="comments">
@@ -147,7 +173,7 @@ class ScreamDialog extends Component {
           <MyButton
             tip="Close"
             onClick={this.handleClose}
-            tipClassName={classes.closeButton}
+            tipClassName={w > 400 ? classes.closeButton : classes.closeButtonSM}
           >
             <CloseIcon />
           </MyButton>

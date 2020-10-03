@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
@@ -29,12 +29,28 @@ const styles = {
     minWidth: 200,
     // height: 200,
   },
+  imageSM: {
+    width: 150,
+    // height: 200,
+    objectFit: "contian",
+  },
   content: {
     padding: 25,
-    objectFit: "cover",
+    // objectFit: "cover",
+    // display: "flex",
+    // flexDirection: "column",
+    position: "relative",
+  },
+  ScreamDialog: {
+    left: "50%",
+    buttom: "90%",
+    position: "absolute",
   },
 };
 
+const likeBtnStyle = {
+  padding: "0",
+};
 class Scream extends Component {
   render() {
     dayjs.extend(relativeTime);
@@ -59,12 +75,14 @@ class Scream extends Component {
       authenticated && userHandle === handle ? (
         <DeleteScream screamId={screamId} />
       ) : null;
+    let w = window.innerWidth;
+
     return (
       <Card className={classes.card}>
         <CardMedia
           image={userImage}
           title="Profile image"
-          className={classes.image}
+          className={w > 400 ? classes.image : classes.imageSM}
         />
         <CardContent className={classes.content}>
           <Typography
@@ -80,17 +98,22 @@ class Scream extends Component {
             {dayjs(createdAt).fromNow()}
           </Typography>
           <Typography variant="body1">{body}</Typography>
+
           <LikeButton screamId={screamId} />
           <span>{likeCount} Likes</span>
+
+          <br style={{ marign: 1 }} />
           <MyButton tip="comments">
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} comments</span>
+          {/* <div className={classes.ScreamDialog}> */}
           <ScreamDialog
             screamId={screamId}
             userHandle={userHandle}
             openDialog={this.props.openDialog}
           />
+          {/* </div> */}
         </CardContent>
       </Card>
     );
