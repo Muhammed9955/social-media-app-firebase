@@ -73,10 +73,10 @@ const styles = {
     fontSize: 25,
     color: "#00BCD4",
   },
-  avatar: {
-    width: 50,
-    height: 50,
-  },
+  // avatar: {
+  //   width: 50,
+  //   height: 50,
+  // },
   h6: {
     fontWeight: "normal",
   },
@@ -150,7 +150,7 @@ function ScreamCard(props) {
         }
         subheader={dayjs(createdAt).fromNow()}
         avatar={
-          <Avatar className={classes.avater}>
+          <Avatar>
             <img src={userImage} alt="img" className={classes.avaterImg} />
           </Avatar>
         }
