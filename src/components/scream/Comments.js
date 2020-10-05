@@ -10,8 +10,8 @@ import Typography from "@material-ui/core/Typography";
 const styles = (theme) => ({
   ...theme,
   commentImage: {
-    width: "100px",
-    height: "100px",
+    width: "80px",
+    height: "80px",
     objectFit: "cover",
     borderRadius: "50%",
   },
