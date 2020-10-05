@@ -34,6 +34,10 @@ const styles = {
     // height: 200,
     objectFit: "contian",
   },
+  screamImg: {
+    width: "100%",
+    objectFit: "contian",
+  },
   content: {
     padding: 25,
     // objectFit: "cover",
@@ -57,6 +61,7 @@ class Scream extends Component {
         body,
         createdAt,
         userImage,
+        imgUrl,
         userHandle,
         screamId,
         likeCount,
@@ -74,6 +79,7 @@ class Scream extends Component {
       ) : null;
     let w = window.innerWidth;
 
+    console.log({ imgUrl });
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -81,6 +87,14 @@ class Scream extends Component {
           title="Profile image"
           className={w > 400 ? classes.image : classes.imageSM}
         />
+        {/* {imgUrl && (
+          <CardMedia
+            image={imgUrl}
+            title="Profile image"
+            className={w > 400 ? classes.image : classes.imageSM}
+          />
+        )} */}
+
         <CardContent className={classes.content}>
           <Typography
             variant="h5"
@@ -110,6 +124,10 @@ class Scream extends Component {
             userHandle={userHandle}
             openDialog={this.props.openDialog}
           />
+          {imgUrl && (
+            <img src={imgUrl} alt="image" className={classes.screamImg} />
+          )}
+
           {/* </div> */}
         </CardContent>
       </Card>

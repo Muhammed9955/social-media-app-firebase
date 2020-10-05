@@ -10,7 +10,8 @@ import Paper from "@material-ui/core/Paper";
 
 import { Link } from "react-router-dom";
 
-import Scream from "../components/scream/Scream";
+// import Scream from "../components/scream/Scream";
+import ScreamCard from "../components/scream/ScreamCard";
 // import Profile from "../components/profile/Profile";
 import ScreamSkeleton from "../util/ScreamSkeleton";
 
@@ -30,9 +31,12 @@ class home extends Component {
       data: { screams, loading },
       classes,
     } = this.props;
-    console.log({ classes });
+    console.log("screams", screams);
+    // console.log({ classes });
     let recentScreamsMarkup = !loading ? (
-      screams.map((scream) => <Scream key={scream.screamId} scream={scream} />)
+      screams.map((scream) => (
+        <ScreamCard key={scream.screamId} scream={scream} />
+      ))
     ) : (
       <ScreamSkeleton />
     );
@@ -66,7 +70,7 @@ class home extends Component {
     return (
       <Grid container spacing={16} justify="center">
         {authenticated ? (
-          <Grid item sm={8} xs={12}>
+          <Grid item sm={6} xs={12}>
             {recentScreamsMarkup}
           </Grid>
         ) : (

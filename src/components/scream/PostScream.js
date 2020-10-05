@@ -11,9 +11,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
+import ImageIcon from "@material-ui/icons/Image";
+
 // Redux stuff
 import { connect } from "react-redux";
 import { postScream, clearErrors } from "../../redux/actions/dataActions";
+// import { uploadScreamImage } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
   ...theme,
@@ -42,6 +45,8 @@ class PostScream extends Component {
     open: false,
     body: "",
     errors: {},
+    formData: {},
+    fileInput: {},
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
@@ -63,11 +68,41 @@ class PostScream extends Component {
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
+  handleImageChange = (event) => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+    // this.props.uploadScreamImage(formData);
+    // console.log({ formData });
+
+    this.setState({
+      formData,
+    });
+  };
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.postScream({ body: this.state.body });
+    let imgBool = this.state.fileInput.exist ? true : false;
+    this.props.postScream(
+      { body: this.state.body },
+      this.state.formData,
+      imgBool
+    );
+  };
+  handleEditPicture = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+    if (fileInput) {
+      this.setState({
+        fileInput: { exist: true },
+      });
+    }
+    // console.log({ fileInput });
   };
   render() {
+    // console.log("formData", this.state.formData.values);
+    // console.log("fileInput state", this.state.fileInput);
+    // this.state.fileInput.exist ? console.log("in") : console.log("out");
     const { errors } = this.state;
     const {
       classes,
@@ -75,11 +110,13 @@ class PostScream extends Component {
     } = this.props;
 
     let w = window.innerWidth;
+
     return (
       <Fragment>
         <MyButton onClick={this.handleOpen} tip="Post a Scream!">
           <AddIcon />
         </MyButton>
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -109,6 +146,20 @@ class PostScream extends Component {
                 onChange={this.handleChange}
                 fullWidth
               />
+              <input
+                type="file"
+                id="imageInput"
+                hidden="hidden"
+                onChange={this.handleImageChange}
+              />
+              <MyButton
+                tip="Upload Image"
+                onClick={this.handleEditPicture}
+                btnClassName="button"
+              >
+                <ImageIcon fontSize="large" color="action" />
+              </MyButton>
+
               <Button
                 type="submit"
                 variant="contained"
@@ -132,6 +183,8 @@ class PostScream extends Component {
   }
 }
 
+// const mapActionsToProps = { uploadScreamImages };
+
 PostScream.propTypes = {
   postScream: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
@@ -140,6 +193,7 @@ PostScream.propTypes = {
 
 const mapStateToProps = (state) => ({
   UI: state.UI,
+  user: state.user,
 });
 
 export default connect(mapStateToProps, { postScream, clearErrors })(

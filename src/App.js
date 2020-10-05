@@ -25,7 +25,8 @@ const theme = createMuiTheme(themeObject);
 
 axios.defaults.baseURL =
   // "https://europe-west1-socialape-d081e.cloudfunctions.net/api";
-  "https://europe-west1-social-media-app-52738.cloudfunctions.net/api";
+  // "https://europe-west1-social-media-app-52738.cloudfunctions.net/api";
+  "http://localhost:5000/social-media-app-52738/europe-west1/api/";
 
 const token = localStorage.FBIdToken;
 if (token) {

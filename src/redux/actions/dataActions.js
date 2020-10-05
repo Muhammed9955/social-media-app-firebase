@@ -10,25 +10,25 @@ import {
   LOADING_UI,
   SET_SCREAM,
   STOP_LOADING_UI,
-  SUBMIT_COMMENT
-} from '../types';
-import axios from 'axios';
+  SUBMIT_COMMENT,
+} from "../types";
+import axios from "axios";
 
 // Get all screams
 export const getScreams = () => (dispatch) => {
   dispatch({ type: LOADING_DATA });
   axios
-    .get('/screams')
+    .get("/screams")
     .then((res) => {
       dispatch({
         type: SET_SCREAMS,
-        payload: res.data
+        payload: res.data,
       });
     })
     .catch((err) => {
       dispatch({
         type: SET_SCREAMS,
-        payload: []
+        payload: [],
       });
     });
 };
@@ -39,28 +39,47 @@ export const getScream = (screamId) => (dispatch) => {
     .then((res) => {
       dispatch({
         type: SET_SCREAM,
-        payload: res.data
+        payload: res.data,
       });
+      console.log("res", res.data);
       dispatch({ type: STOP_LOADING_UI });
     })
     .catch((err) => console.log(err));
 };
 // Post a scream
-export const postScream = (newScream) => (dispatch) => {
+export const postScream = (newScream, formData, imgBool) => async (
+  dispatch
+) => {
   dispatch({ type: LOADING_UI });
+  let res;
+  console.log(formData.value);
+  if (imgBool) {
+    res = await axios.post(`/scream/uploadImg`, formData);
+    console.log(formData);
+    const imgUrl = res.data.imgUrl;
+    console.log({ res });
+    console.log("imgUrl", imgUrl);
+
+    console.log({ newScream });
+    newScream = {
+      ...newScream,
+      imgUrl,
+    };
+  }
+
   axios
-    .post('/scream', newScream)
+    .post("/scream", newScream)
     .then((res) => {
       dispatch({
         type: POST_SCREAM,
-        payload: res.data
+        payload: res.data,
       });
       dispatch(clearErrors());
     })
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data
+        payload: err.response.data,
       });
     });
 };
@@ -71,7 +90,7 @@ export const likeScream = (screamId) => (dispatch) => {
     .then((res) => {
       dispatch({
         type: LIKE_SCREAM,
-        payload: res.data
+        payload: res.data,
       });
     })
     .catch((err) => console.log(err));
@@ -83,7 +102,7 @@ export const unlikeScream = (screamId) => (dispatch) => {
     .then((res) => {
       dispatch({
         type: UNLIKE_SCREAM,
-        payload: res.data
+        payload: res.data,
       });
     })
     .catch((err) => console.log(err));
@@ -95,14 +114,14 @@ export const submitComment = (screamId, commentData) => (dispatch) => {
     .then((res) => {
       dispatch({
         type: SUBMIT_COMMENT,
-        payload: res.data
+        payload: res.data,
       });
       dispatch(clearErrors());
     })
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data
+        payload: err.response.data,
       });
     });
 };
@@ -122,15 +141,25 @@ export const getUserData = (userHandle) => (dispatch) => {
     .then((res) => {
       dispatch({
         type: SET_SCREAMS,
-        payload: res.data.screams
+        payload: res.data.screams,
       });
     })
     .catch(() => {
       dispatch({
         type: SET_SCREAMS,
-        payload: null
+        payload: null,
       });
     });
+};
+
+export const uploadScreamImage = (formData, screamId) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post(`/scream/uploadImg`, formData)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => console.log(err));
 };
 
 export const clearErrors = () => (dispatch) => {

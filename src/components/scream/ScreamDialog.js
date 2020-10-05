@@ -2,24 +2,28 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../../util/MyButton";
-import LikeButton from "./LikeButton";
+// import LikeButton from "./LikeButton";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
-import dayjs from "dayjs";
-import { Link } from "react-router-dom";
+// import dayjs from "dayjs";
+// import { Link } from "react-router-dom";
 // MUI Stuff
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 // Icons
 import CloseIcon from "@material-ui/icons/Close";
-import UnfoldMore from "@material-ui/icons/UnfoldMore";
+// import UnfoldMore from "@material-ui/icons/UnfoldMore";
+// import ChatIcon from "@material-ui/icons/Chat";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ChatIcon from "@material-ui/icons/Chat";
+
 // Redux stuff
 import { connect } from "react-redux";
 import { getScream, clearErrors } from "../../redux/actions/dataActions";
+import ScreamCard from "../scream/ScreamCard";
 
 const styles = (theme) => ({
   ...theme,
@@ -34,13 +38,13 @@ const styles = (theme) => ({
     height: 200,
     borderRadius: "50%",
     objectFit: "cover",
-    padding: "0 40% 0 40%",
+    // padding: "0 40% 0 40%",
   },
   dialogContent: {
     padding: 20,
   },
   closeButton: {
-    position: "absolute",
+    // position: "absolute",
     left: "90%",
   },
   closeButtonSM: {
@@ -48,8 +52,9 @@ const styles = (theme) => ({
     left: "85%",
   },
   expandButton: {
-    position: "absolute",
-    left: "90%",
+    // position: "absolute",
+    // left: "90%",
+    padding: "0 .1rem 0 .1rem",
   },
   spinnerDiv: {
     textAlign: "center",
@@ -93,38 +98,39 @@ class ScreamDialog extends Component {
   };
 
   render() {
-    let w = window.innerWidth;
+    // let w = window.innerWidth;
     // console.log({ w });
 
     const {
       classes,
+      chatIcon,
       scream: {
         screamId,
-        body,
-        createdAt,
-        likeCount,
-        commentCount,
-        userImage,
-        userHandle,
+        // body,
+        // createdAt,
+        // likeCount,
+        // commentCount,
+        // userImage,
+        // userHandle,
         comments,
       },
       UI: { loading },
     } = this.props;
-
+    const { scream } = this.props;
     const dialogMarkup = loading ? (
       <div className={classes.spinnerDiv}>
         <CircularProgress size={200} thickness={2} />
       </div>
     ) : (
       <Grid container spacing={16}>
-        <Grid item sm={5}>
+        {/* <Grid item sm={5}>
           <img
             src={userImage}
             alt="Profile"
             className={w > 400 ? classes.profileImage : classes.profileImageSM}
           />
-        </Grid>
-        <Grid item sm={7}>
+        </Grid> */}
+        {/* <Grid item sm={7}>
           <Typography
             component={Link}
             color="primary"
@@ -148,37 +154,49 @@ class ScreamDialog extends Component {
           </MyButton>
           <span>{commentCount} comments</span>
         </Grid>
-        <hr className={classes.visibleSeparator} />
+         */}
+
+        <ScreamCard
+          scream={scream}
+          open={this.state.open}
+          handleClose={this.handleClose}
+        />
+        {/* <hr className={classes.visibleSeparator} /> */}
         <CommentForm screamId={screamId} />
         <Comments comments={comments} />
       </Grid>
     );
     return (
       <Fragment>
-        <MyButton
-          onClick={this.handleOpen}
-          tip="Expand scream"
-          tipClassName={classes.expandButton}
-        >
-          <UnfoldMore color="primary" />
-        </MyButton>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          fullWidth
-          maxWidth="sm"
-        >
+        {this.state.open ? (
           <MyButton
-            tip="Close"
             onClick={this.handleClose}
-            tipClassName={w > 400 ? classes.closeButton : classes.closeButtonSM}
+            tip="Expand scream"
+            tipClassName={classes.expandButton}
           >
             <CloseIcon />
           </MyButton>
-          <DialogContent className={classes.dialogContent}>
-            {dialogMarkup}
-          </DialogContent>
-        </Dialog>
+        ) : (
+          <MyButton
+            onClick={this.handleOpen}
+            tip="Expand scream"
+            tipClassName={classes.expandButton}
+          >
+            {chatIcon ? <ChatIcon color="primary" /> : <MoreVertIcon />}
+          </MyButton>
+        )}
+        {this.state.open && (
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            fullWidth
+            maxWidth="sm"
+          >
+            <DialogContent className={classes.dialogContent}>
+              {dialogMarkup}
+            </DialogContent>
+          </Dialog>
+        )}
       </Fragment>
     );
   }

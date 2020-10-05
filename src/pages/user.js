@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import Scream from "../components/scream/Scream";
+// import Scream from "../components/scream/Scream";
+import ScreamCard from "../components/scream/ScreamCard";
 // import StaticProfile from "../components/profile/StaticProfile";
 import Profile from "../components/profile/Profile";
 
@@ -43,12 +44,17 @@ class user extends Component {
     ) : screams === null ? (
       <p>No screams from this user</p>
     ) : !screamIdParam ? (
-      screams.map((scream) => <Scream key={scream.screamId} scream={scream} />)
+      screams.map((scream) => (
+        <ScreamCard key={scream.screamId} scream={scream} />
+      ))
     ) : (
       screams.map((scream) => {
         if (scream.screamId !== screamIdParam)
-          return <Scream key={scream.screamId} scream={scream} />;
-        else return <Scream key={scream.screamId} scream={scream} openDialog />;
+          return <ScreamCard key={scream.screamId} scream={scream} />;
+        else
+          return (
+            <ScreamCard key={scream.screamId} scream={scream} openDialog />
+          );
       })
     );
 
