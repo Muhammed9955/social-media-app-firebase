@@ -1,5 +1,8 @@
 import React, { Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { Link } from "react-router-dom";
+
+// MI stuff
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -134,7 +137,17 @@ function ScreamCard(props) {
           title: classes.title,
           avatar: classes.avatar,
         }}
-        title={`@${userHandle}`}
+        // title={`@${userHandle}`}
+        title={
+          <Typography
+            variant="h5"
+            component={Link}
+            to={`/users/${userHandle}`}
+            color="primary"
+          >
+            {`@${userHandle}`}
+          </Typography>
+        }
         subheader={dayjs(createdAt).fromNow()}
         avatar={
           <Avatar className={classes.avater}>
