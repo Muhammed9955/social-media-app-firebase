@@ -38,7 +38,7 @@ class user extends Component {
   render() {
     console.log("profile", this.state.profile);
     const { screams, loading } = this.props.data;
-    const { authenticated } = this.props.user;
+    // const { authenticated } = this.props.user;
     const { screamIdParam } = this.state;
 
     const screamsMarkup = loading ? (
@@ -65,7 +65,7 @@ class user extends Component {
         <Grid item sm={4} xs={12}>
           {this.state.profile === null ? (
             <ProfileSkeleton />
-          ) : this.props.user.credentials.handle ==
+          ) : this.props.user.credentials.handle ===
             this.state.profile.handle ? (
             <Profile />
           ) : (
